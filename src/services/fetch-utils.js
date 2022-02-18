@@ -14,3 +14,8 @@ export const logout = async () => {
   await client.auth.signOut();
   location.replace('./auth');
 };
+
+export const myWatchList = async (user_id) => {
+  const response = await client.from('watch_list').select().match({ user_id });
+  return checkError(response);
+};

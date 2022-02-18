@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Redirect, Route, Switch, NavLink } from 'react-router-dom';
 import './App.css';
 import Auth from './Routes/Auth';
 import WatchList from './Routes/WatchList';
-import { logout } from './services/fetch-utils';
+import { logout, myWatchList } from './services/fetch-utils';
 
 function App() {
-  const [currentUser, setUser] = useState(localStorage.getItem('supabase.auth.token'));
+  const [currentUser, setUser] = useState(JSON.parse(localStorage.getItem('supabase.auth.token')));
+  const [movieList, setMovieList] = useState([]);
+
+  const movieFetch = async () => {
+    const response = await myWatchList(currentUser.currentSession.user.id);
+    response && (await setMovieList(response));
+  };
+
+  useEffect(() => {
+    movieFetch();
+  }, []);
 
   return (
     <div className="App">
@@ -25,7 +35,7 @@ function App() {
             <Auth setUser={setUser} />
           </Route>
           <Route exact path={'/watch-list'}>
-            {currentUser ? <WatchList /> : <Redirect to={'/auth'} />}
+            {currentUser ? <WatchList movieList={movieList} /> : <Redirect to={'/auth'} />}
           </Route>
         </Switch>
       </BrowserRouter>

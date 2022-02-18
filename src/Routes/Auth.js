@@ -15,7 +15,7 @@ export default function Auth({ setUser }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     signInOrUp === 'in' ? await signIn(email, password) : await signUp(email, password);
-    setUser(localStorage.getItem('supabase.auth.token'));
+    setUser(JSON.parse(localStorage.getItem('supabase.auth.token')));
     resetForm();
     location.replace('/');
   };
