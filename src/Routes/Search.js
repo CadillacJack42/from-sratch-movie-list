@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Movie from '../Components/Movie';
 
 export default function Search() {
   const netlifyURL = `/.netlify/functions/list`;
@@ -28,14 +29,7 @@ export default function Search() {
       {results.results ? (
         <div>
           {results.results.map((result, i) => {
-            return (
-              <p key={result.overview + i}>
-                {result.original_title}
-                <br></br>
-                <hr></hr>
-                {result.overview}
-              </p>
-            );
+            return <Movie key={result.id} movie={result} />;
           })}
         </div>
       ) : null}
