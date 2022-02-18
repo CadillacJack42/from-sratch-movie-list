@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { updateWatchlist } from '../services/fetch-utils';
+import React from 'react';
+import { myWatchList, updateWatchlist } from '../services/fetch-utils';
 import '../Styles/Movie.css';
 
-export default function Movie({ movie, setMovieList }) {
-  console.log(movie);
+export default function Movie({ movie, setMovieList, user }) {
   const addToWatchList = async () => {
     const newMovie = {
       name: movie.original_title,
@@ -12,9 +11,10 @@ export default function Movie({ movie, setMovieList }) {
       poster: `https://image.tmdb.org/t/p/original${movie.poster_path}`,
     };
 
-    const response = await updateWatchlist(newMovie);
-    await setMovieList(response);
-    location.replace('/watch-list');
+    await updateWatchlist(newMovie);
+    const response = await myWatchList(user.currentSession.user.id);
+    setMovieList(response);
+    alert('Movie Added To Watch List');
   };
 
   return (

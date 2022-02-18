@@ -17,7 +17,7 @@ export default function Auth({ setUser }) {
     signInOrUp === 'in' ? await signIn(email, password) : await signUp(email, password);
     setUser(JSON.parse(localStorage.getItem('supabase.auth.token')));
     resetForm();
-    location.replace('/');
+    // location.replace('/');
   };
 
   return (

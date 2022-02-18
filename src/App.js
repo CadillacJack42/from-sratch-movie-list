@@ -11,13 +11,14 @@ function App() {
   const [movieList, setMovieList] = useState([]);
 
   const movieFetch = async () => {
-    const response = await myWatchList(currentUser.currentSession.user.id);
-    console.log(response);
+    let response;
+    currentUser ? (response = await myWatchList(currentUser.currentSession.user.id)) : null;
     response && (await setMovieList(response));
   };
 
   useEffect(() => {
     movieFetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -37,13 +38,25 @@ function App() {
           </Route>
           <Switch>
             <Route exact path={'/auth'}>
-              <Auth setUser={setUser} />
+              {currentUser ? (
+                <Search setMovieList={setMovieList} user={currentUser} />
+              ) : (
+                <Auth setUser={setUser} />
+              )}
             </Route>
             <Route exact path={'/search'}>
-              {currentUser ? <Search setMovieList={setMovieList} /> : <Redirect to={'/auth'} />}
+              {currentUser ? (
+                <Search setMovieList={setMovieList} user={currentUser} />
+              ) : (
+                <Redirect to={'/auth'} />
+              )}
             </Route>
             <Route exact path={'/watch-list'}>
-              {currentUser ? <WatchList movieList={movieList} /> : <Redirect to={'/auth'} />}
+              {currentUser ? (
+                <WatchList movieList={movieList} setMovieList={setMovieList} />
+              ) : (
+                <Redirect to={'/auth'} />
+              )}
             </Route>
           </Switch>
         </div>

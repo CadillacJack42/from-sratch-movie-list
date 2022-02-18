@@ -1,10 +1,12 @@
 import React from 'react';
-import { markWatched } from '../services/fetch-utils';
+import { markWatched, myWatchList } from '../services/fetch-utils';
 import '../Styles/Movie.css';
 
-export default function WatchListMovie({ movie }) {
+export default function WatchListMovie({ movie, setMovieList }) {
   const watchMovie = async () => {
     await markWatched(movie.api_id);
+    const response = await myWatchList(movie.user_id);
+    await setMovieList(response);
   };
 
   return (

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Movie from '../Components/Movie';
 
-export default function Search({ setMovieList }) {
+export default function Search({ setMovieList, user }) {
   const netlifyURL = `/.netlify/functions/list`;
 
   const [query, setQuery] = useState('Avengers');
@@ -26,8 +26,8 @@ export default function Search({ setMovieList }) {
       </form>
       {results.results ? (
         <div>
-          {results.results.map((result, i) => {
-            return <Movie key={result.id} movie={result} setMovieList={setMovieList} />;
+          {results.results.map((result) => {
+            return <Movie key={result.id} movie={result} setMovieList={setMovieList} user={user} />;
           })}
         </div>
       ) : null}
