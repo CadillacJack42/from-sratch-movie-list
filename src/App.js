@@ -25,7 +25,7 @@ function App() {
             <Auth setUser={setUser} />
           </Route>
           <Route exact path={'/watch-list'}>
-            <WatchList />
+            {currentUser ? <WatchList /> : <Redirect to={'/auth'} />}
           </Route>
         </Switch>
       </BrowserRouter>
