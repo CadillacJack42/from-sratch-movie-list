@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { signIn, signUp } from '../services/fetch-utils';
 
-export default function Auth() {
+export default function Auth({ setUser }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [signInOrUp, setSignIn] = useState('');
@@ -15,7 +15,9 @@ export default function Auth() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     signInOrUp === 'in' ? await signIn(email, password) : await signUp(email, password);
+    setUser(localStorage.getItem('supabase.auth.token'));
     resetForm();
+    location.replace('/');
   };
 
   return (
@@ -24,6 +26,8 @@ export default function Auth() {
         <label>
           Email:
           <input
+            required
+            value={email}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -32,13 +36,16 @@ export default function Auth() {
         <label>
           Password:
           <input
+            required
+            type="password"
+            value={password}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
           ></input>
         </label>
-        <button onClick={() => setSignIn('in')}>Sign Up</button>
-        <button onClick={() => setSignIn('up')}>Sign In</button>
+        <button onClick={() => setSignIn('up')}>Sign Up</button>
+        <button onClick={() => setSignIn('in')}>Sign In</button>
       </form>
     </div>
   );
