@@ -4,16 +4,7 @@ export default function Search() {
   const netlifyURL = `/.netlify/functions/list`;
 
   const [query, setQuery] = useState('Avengers');
-  // const [queryInput, setQueryInput] = useState('');
   const [results, setResults] = useState('');
-
-  // useEffect(() => {
-  //   const response = searchMovies();
-  //   console.log(response);
-  // }, []);
-
-  // const searchMovies = async () => {
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,7 +28,14 @@ export default function Search() {
       {results.results ? (
         <div>
           {results.results.map((result, i) => {
-            return <p key={result.overview + i}>{result.overview}</p>;
+            return (
+              <p key={result.overview + i}>
+                {result.original_title}
+                <br></br>
+                <hr></hr>
+                {result.overview}
+              </p>
+            );
           })}
         </div>
       ) : null}
