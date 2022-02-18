@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Redirect, Route, Switch, NavLink } from 'react-router-dom';
 import './App.css';
 import Auth from './Routes/Auth';
-import WatchList from './Routes/WatchList';
+import Search from './Routes/Search';
+import WatchList from './Routes/Search';
 import { logout, myWatchList } from './services/fetch-utils';
 
 function App() {
@@ -28,11 +29,14 @@ function App() {
           Logout
         </NavLink>
         <Route exact path={'/'}>
-          {currentUser ? <Redirect to={'/watch-list'} /> : <Redirect to={'/auth'} />}
+          {currentUser ? <Redirect to={'/search'} /> : <Redirect to={'/auth'} />}
         </Route>
         <Switch>
           <Route exact path={'/auth'}>
             <Auth setUser={setUser} />
+          </Route>
+          <Route exact path={'/search'}>
+            {currentUser ? <Search movieList={movieList} /> : <Redirect to={'/auth'} />}
           </Route>
           <Route exact path={'/watch-list'}>
             {currentUser ? <WatchList movieList={movieList} /> : <Redirect to={'/auth'} />}

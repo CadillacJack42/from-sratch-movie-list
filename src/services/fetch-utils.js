@@ -17,6 +17,5 @@ export const logout = async () => {
 
 export const myWatchList = async (user_id) => {
   const response = await client.from('watch_list').select().match({ user_id });
-  console.log(response);
   return checkError(response);
 };

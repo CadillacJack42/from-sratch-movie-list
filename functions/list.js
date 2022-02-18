@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 require('dotenv').config();
 
 exports.handler = async (event) => {
-  const movieDBURL = `https://api.themoviedb.org/3/search/movie/?api_key=${process.env.MOVIE_API_KEY}&include_adult=false&query='infinity'`;
+  const movieDBURL = `https://api.themoviedb.org/3/search/movie/?api_key=${process.env.MOVIE_API_KEY}&include_adult=false&query=${event.queryStringParameters.query}`;
 
   try {
     const response = await fetch(movieDBURL);
