@@ -3,7 +3,7 @@ import { BrowserRouter, Redirect, Route, Switch, NavLink } from 'react-router-do
 import './App.css';
 import Auth from './Routes/Auth';
 import Search from './Routes/Search';
-import WatchList from './Routes/Search';
+import WatchList from './Routes/WatchList';
 import { logout, myWatchList } from './services/fetch-utils';
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
 
   const movieFetch = async () => {
     const response = await myWatchList(currentUser.currentSession.user.id);
+    console.log(response);
     response && (await setMovieList(response));
   };
 
@@ -23,25 +24,29 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <h1>Welcome to Cadillac Jacks Movie Watchlist</h1>
-        <NavLink to={'/search'}>Search Page</NavLink> {' | '}
-        <NavLink to={'/watch-list'}>Watch List</NavLink> {' | '}
-        <NavLink onClick={() => logout()} to={'/'}>
-          Logout
-        </NavLink>
-        <Route exact path={'/'}>
-          {currentUser ? <Redirect to={'/search'} /> : <Redirect to={'/auth'} />}
-        </Route>
-        <Switch>
-          <Route exact path={'/auth'}>
-            <Auth setUser={setUser} />
+        <div>
+          <NavLink to={'/search'}>Search Page</NavLink> {' | '}
+          <NavLink to={'/watch-list'}>Watch List</NavLink> {' | '}
+          <NavLink onClick={() => logout()} to={'/'}>
+            Logout
+          </NavLink>
+        </div>
+        <div className="components">
+          <Route exact path={'/'}>
+            {currentUser ? <Redirect to={'/search'} /> : <Redirect to={'/auth'} />}
           </Route>
-          <Route exact path={'/search'}>
-            {currentUser ? <Search movieList={movieList} /> : <Redirect to={'/auth'} />}
-          </Route>
-          <Route exact path={'/watch-list'}>
-            {currentUser ? <WatchList movieList={movieList} /> : <Redirect to={'/auth'} />}
-          </Route>
-        </Switch>
+          <Switch>
+            <Route exact path={'/auth'}>
+              <Auth setUser={setUser} />
+            </Route>
+            <Route exact path={'/search'}>
+              {currentUser ? <Search setMovieList={setMovieList} /> : <Redirect to={'/auth'} />}
+            </Route>
+            <Route exact path={'/watch-list'}>
+              {currentUser ? <WatchList movieList={movieList} /> : <Redirect to={'/auth'} />}
+            </Route>
+          </Switch>
+        </div>
       </BrowserRouter>
     </div>
   );

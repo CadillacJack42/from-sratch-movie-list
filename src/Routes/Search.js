@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Movie from '../Components/Movie';
 
-export default function Search() {
+export default function Search({ setMovieList }) {
   const netlifyURL = `/.netlify/functions/list`;
 
   const [query, setQuery] = useState('Avengers');
@@ -12,9 +12,7 @@ export default function Search() {
 
     const response = await fetch(`${netlifyURL}?query=${query}`);
     const json = await response.json();
-    console.log(json);
     await setResults(json);
-    console.log(results);
     setQuery('');
   };
 
@@ -29,7 +27,7 @@ export default function Search() {
       {results.results ? (
         <div>
           {results.results.map((result, i) => {
-            return <Movie key={result.id} movie={result} />;
+            return <Movie key={result.id} movie={result} setMovieList={setMovieList} />;
           })}
         </div>
       ) : null}
