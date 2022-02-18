@@ -24,3 +24,7 @@ export const myWatchList = async (user_id) => {
   const response = await client.from('watch_list').select().match({ user_id });
   return checkError(response);
 };
+
+export const markWatched = async (id) => {
+  const response = await client.from('watch_list').update({ watched: true }).match({ api_id: id });
+};
