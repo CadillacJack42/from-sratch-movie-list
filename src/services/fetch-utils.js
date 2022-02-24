@@ -29,3 +29,7 @@ export const markWatched = async (id) => {
   const response = await client.from('watch_list').update({ watched: true }).match({ api_id: id });
   return checkError(response);
 };
+export const clearWatchList = async (user_id) => {
+  const response = await client.from('watch_list').delete().match({ user_id });
+  return checkError(response);
+};

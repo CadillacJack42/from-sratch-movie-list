@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
 import { myWatchList, updateWatchlist } from '../services/fetch-utils';
 import '../Styles/Movie.css';
 
-export default function Movie({ movie, setMovieList, user }) {
-  const [onWatchList, setOnWatchList] = useState(false);
+export default function Movie({ movie, setMovieList, movieList, user }) {
   const addToWatchList = async () => {
     const newMovie = {
       name: movie.original_title,
@@ -15,12 +13,13 @@ export default function Movie({ movie, setMovieList, user }) {
     await updateWatchlist(newMovie);
     const response = await myWatchList(user.currentSession.user.id);
     setMovieList(response);
-    setOnWatchList(true);
   };
+
+  const isOnWatchList = movieList.filter((newMovie) => newMovie.name === movie.original_title);
 
   return (
     <div onClick={addToWatchList} className={'movie-container'}>
-      {onWatchList ? <h3>Selection Has Been Added To Watch List</h3> : null}
+      {isOnWatchList.length ? <h3>Selection Is On Watch List</h3> : null}
       <h2>{movie.original_title}</h2>
       <img
         src={

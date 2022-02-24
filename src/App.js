@@ -46,14 +46,19 @@ function App() {
             </Route>
             <Route exact path={'/search'}>
               {currentUser ? (
-                <Search setMovieList={setMovieList} user={currentUser} />
+                <Search setMovieList={setMovieList} user={currentUser} movieList={movieList} />
               ) : (
                 <Redirect to={'/auth'} />
               )}
             </Route>
             <Route exact path={'/watch-list'}>
               {currentUser ? (
-                <WatchList movieList={movieList} setMovieList={setMovieList} />
+                <WatchList
+                  movieList={movieList}
+                  setMovieList={setMovieList}
+                  currentUser={currentUser}
+                  movieFetch={movieFetch}
+                />
               ) : (
                 <Redirect to={'/auth'} />
               )}
